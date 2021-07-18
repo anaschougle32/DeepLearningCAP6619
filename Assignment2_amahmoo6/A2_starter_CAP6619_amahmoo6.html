@@ -16193,11 +16193,11 @@ doing about it?</p>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>1- We are not able to send lists of integers into a neural network. We have to convert  lists into
-tensors. There are two ways we could do that:
-A. We could pad our lists so that they all have the same length, and turn them into an integer
-tensor of shape , then use as first layer in our network a (samples, word_indices)
-layer capable of handling such integer tensors
-B. We could one-hot-encode our lists to turn them into vectors of 0s and 1s. Concretely, this
+tensors.Two ways below:</p>
+<p>A. We could pad our lists so that they all have the same length and turn them into an integer
+tensor shape , then use as first layer in our network a (samples, word_indices)
+layer capable of handling such integer tensors(above)</p>
+<p>B. We could one-hot-encode our lists to turn them into vectors of 0s and 1s. This
 would mean for instance turning the sequence into a 10,000-dimensional vector [3, 5]
 that would be all-zeros except for indices 3 and 5, which would be ones. Then we could
 use as first layer in our network a layer, capable of handling floating point vector Dense
@@ -16214,12 +16214,12 @@ data.</p>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>3 -The dots are the training loss and accuracy, while the solid lines are the validation
-loss and accuracy. you can see my results may vary slightly due to a different random
-initialization of network.you can see the training loss decreases with every epoch and the training accuracy
-increases with every epoch. That’s what you would expect when running gradient
-descent optimization—the quantity you are trying to minimize should get lower with
+loss and accuracy. you can see my results are slightly different due to a different random
+initialization of network. you can see the training loss decreases with every epoch and the training accuracy
+increases with every epoch. That is considered a expectation when running gradient
+descent optimization. The quantity you are trying to minimize should get lower with
 every iteration. But that isn’t the case for the validation loss and accuracy: they seem to
-peak at the fourth epoch. It is a good metric because it helped me determine overfitting.</p>
+peak at the fourth epoch. It is a good metric because it helped me determine overfitting also helps me determine correct number of predictions which is a what we need in this use case.</p>
 
 </div>
 </div>
@@ -17726,8 +17726,8 @@ with a 1 in the place of the label index, e.g.</p>
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>2 - this topic classification problem looks  similar to our previous movie review
 classification problem in problem number 1: in both cases, we are trying to classify short snippets of text.
-There is however a new constraint here: the number of output classes has gone from 2 to
-46, i.e. the dimensionality of the output space is much larger. So we have a 46 output classes for categories.</p>
+In this use case case we have one more requirement though here: the number of output classes has gone from 2 to
+46,. the dimensionality of the output is much larger. So we have a 46 output classes for categories.</p>
 
 </div>
 </div>
@@ -17739,10 +17739,7 @@ There is however a new constraint here: the number of output classes has gone fr
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>4 -Accuracy in this use case is a helpful metric. Our network now seems to peak at ~71% validation accuracy, a 8% absolute drop. pg(80-83)This drop is mostly due to the fact that we are now trying to compress a lot of
-information (enough information to recover the separation hyperplanes of 46 classes) into
-an intermediate space that is too low-dimensional. The network is able to cram of most
-the necessary information into these 8-dimensional representations, but not all of it.</p>
+<p>4 -Accuracy in this use case is a helpful metric.Again accuracy gives the values of correct predictions. When you view output above in resutls you can see accuracy hit  close to 80%.In the text book it shows examples for different use cases reach about 50% with random classifiers. When you look at the results after evaluate method above this shows we did pretty good compared to a random classifiers.</p>
 
 </div>
 </div>
@@ -19183,13 +19180,10 @@ Processing fold #1
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>1-pg(79) It would be a issue to feed nueral network values that all take different ranges.
+<p>1-pg(79) It would be a a major problem to send our nueral network, values that all take different ranges.
 The network might be able to automatically adapt to such heterogeneous data, but
-it would definitely make learning more difficult. A standard best practice to deal with
-this use case and data is to do feature-wise normalization.Which is for each feature in the input data (a column
-in the input data matrix), we will subtract the mean of the feature and divide by the
-standard deviation, so that the feature will be centered around 0 and will have a unit
-standard deviation</p>
+it would definitely make learning more difficult(According to the author).</p>
+<p>A standard best practice pre processing method to deal with this use case and data is to do feature-wise normalization.Which is for each feature in the input data (a column in the input data matrix), we will subtract the mean of the feature and divide by the standard deviation, so that the feature will be centered around 0 and will have a unit standard deviation. When features in the input data have values in different ranges, each feature should be scaled independently as a preprocessing step.</p>
 
 </div>
 </div>
@@ -19201,17 +19195,14 @@ standard deviation</p>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>3 - Because so few samples are available, we eneded up using a very small network with two
-hidden layers, each with 64 units. In general, the less training data you have, the worse
-overfitting will be, and using a small network is one way to mitigate overfitting. So we had a very little overfitting.</p>
+<p>3 - When you look at plot you can see  that the validation mae stop imporve after 80 epoch. We see overfitting after that.</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>4- It is a good metric of success for this use case. pg(81) We are compiling the network with the loss function—Mean Squared mse Error, the square of the different between the predictions and the targets. This is also considered a standard and a widely used loss function for regression problems It is simply the absolute value of the difference between the predictions
-and the targets. For instance, a MAE of 0.5 on this problem would mean that our
-predictions are off by $500 on average.</p>
+<p>4- It is a good metric of success for this use case. Metrics used to interprest results from a regression problem are different than metrics used to interpret results from a classification problem. The value of "accuracy" does not apply for regression use cases. A standard metric to use for regression use cases is Mean Absolute Error (MAE).</p>
+<p>pg(81) We are compiling the network with the loss function—Mean Squared mse Error, the square of the different between the predictions and the targets. This is also considered a standard and a widely used loss function for regression problems It is simply the absolute value of the difference between the predictions and the targets.</p>
 
 </div>
 </div>
